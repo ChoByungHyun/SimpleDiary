@@ -3,31 +3,6 @@ import './App.css';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
 
-//const dummyList = [
-// {
-//   id: 1,
-//   author: "조병현",
-//   content: "hi 1",
-//   emotion: 1,
-//   created_date: new Date().getTime(),
-// },
-// {
-//   id: 2,
-//   author: "홍길동",
-//   content: "hi 2",
-//   emotion: 2,
-//   created_date: new Date().getTime(),
-// },
-// {
-//   id: 3,
-//   author: "정민성",
-//   content: "hi 3",
-//   emotion: 4,
-//   created_date: new Date().getTime(),
-// },
-
-//]
-
 function App() {
   const [data, setData] = useState([]);
 
@@ -50,13 +25,20 @@ function App() {
     console.log(`${targetID}가 삭제되었습니다!`);
     const newDiaryList = data.filter((it) => it.id !== targetID);
     setData(newDiaryList);
+  };
+  const onEdit = (targetID, newContent) => {
+    setData(
+      data.map((it) =>
+        it.id === targetID ? { ...it, content: newContent } : it
+      )
+    )
   }
 
   return (
     <div className="App">
 
       <DiaryEditor onCreate={onCreate}></DiaryEditor>
-      <DiaryList onRemove={onRemove} diaryList={data}></DiaryList>
+      <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data}></DiaryList>
     </div>
   );
 }
