@@ -40,20 +40,21 @@ function App() {
     }
     dataId.current += 1;
     setData((data) => [newItem, ...data]);
-
   },
     []);
-  const onRemove = (targetID) => {
-    const newDiaryList = data.filter((it) => it.id !== targetID);
-    setData(newDiaryList);
-  };
-  const onEdit = (targetID, newContent) => {
+
+  const onRemove = useCallback((targetID) => {
+    setData(data => data.filter((it) => it.id !== targetID));
+  }, []);
+
+  const onEdit = useCallback((targetID, newContent) => {
     setData(
-      data.map((it) =>
-        it.id === targetID ? { ...it, content: newContent } : it
-      )
+      (data) =>
+        data.map((it) =>
+          it.id === targetID ? { ...it, content: newContent } : it
+        )
     )
-  }
+  }, [])
 
   const getDiaryAnalysis = useMemo(
     () => {
